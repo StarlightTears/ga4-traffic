@@ -1,6 +1,19 @@
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
+  // ============================
+  // CORS: cho phép Shopify domain
+  // ============================
+  const allowedOrigin = "https://bietthu-anmaison.com.vn";
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Xử lý preflight request
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   try {
     const shop = process.env.SHOPIFY_SHOP;
     const token = process.env.SHOPIFY_ADMIN_TOKEN;
